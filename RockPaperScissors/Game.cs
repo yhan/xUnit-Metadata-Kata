@@ -1,37 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RockPaperScissors
+﻿namespace RockPaperScissors
 {
+    using System.Collections.Generic;
+
     public class Game
     {
-        private int _player1Score = 0;
-        private int _player2Score = 0;
-        private IGameListener _listener;
+        private Winner _winner = Winner.Draw;
 
-        public Game(IGameListener listener)
+        private Dictionary<Winner, PlayerScore> playerScores = new Dictionary<Winner, PlayerScore>
         {
-            _listener = listener;
+            [Winner.Player1] = new PlayerScore(),
+            [Winner.Player2] = new PlayerScore(),
+        };
+
+        public Winner GetWinner()
+        {
+            return _winner;
         }
 
         public void PlayRound(string player1, string player2)
         {
-            int result = new Round().Play(player1, player2);
-            if (result == 1) _player1Score++;
-            if (result == 2) _player2Score++;
+            Winner winner = new Round().Play(player1, player2);
 
-            if (_player1Score == 2)
-            {
-                _listener.GameOver(1);
-            }
 
-            if (_player2Score == 2)
+
+            if (playerScores.TryGetValue(winner, out PlayerScore playerScore))
             {
-                _listener.GameOver(2);
+                int score = playerScore.Scoring();
+                if (score == 2)
+                {
+                    _winner = winner;
+                }
             }
+        }
+    }
+
+    public class PlayerScore
+    {
+        private int _score;
+
+        public int Scoring()
+        {
+            _score++;
+            return _score;
         }
     }
 }

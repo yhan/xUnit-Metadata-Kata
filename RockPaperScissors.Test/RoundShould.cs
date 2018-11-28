@@ -13,65 +13,65 @@ namespace RockPaperScissors.Test
         [Test]
         public void Return_1_rock_blunts_scissors_PASS_When_draw_Rock_Scissors()
         {
-            int result = new Round().Play("Rock", "Scissors");
-            Check.That(result).IsEqualTo(1);
+            var winner = new Round().Play("Rock", "Scissors");
+            Check.That(winner).IsEqualTo(Winner.Player1);
         }
 
         [Test]
         public void Return_2_rock_blunts_scissors_PASS_When_draw_Scissors_Rock()
         {
-            int result = new Round().Play("Scissors", "Rock");
-            Check.That(result).IsEqualTo(2);
+            var winner = new Round().Play("Scissors", "Rock");
+            Check.That(winner).IsEqualTo(Winner.Player2);
         }
 
         [Test]
         public void Return_1_scissors_cut_paper_PASS_When_draw_Scissors_Paper()
         {
-            int result = new Round().Play("Scissors", "Paper");
-            Check.That(result).IsEqualTo(1);
+            var winner = new Round().Play("Scissors", "Paper");
+            Check.That(winner).IsEqualTo(Winner.Player1);
         }
 
         [Test]
         public void Return_2_scissors_cut_paper_PASS_When_draw_Paper_Scissors()
         {
-            int result = new Round().Play("Paper", "Scissors");
-            Check.That(result).IsEqualTo(2);
+            var winner = new Round().Play("Paper", "Scissors");
+            Check.That(winner).IsEqualTo(Winner.Player2);
         }
 
         [Test]
         public void Return_1_paper_wraps_rock_PASS_When_draw_Paper_Rock()
         {
-            int result = new Round().Play("Paper", "Rock");
-            Check.That(result).IsEqualTo(1);
+            var winner = new Round().Play("Paper", "Rock");
+            Check.That(winner).IsEqualTo(Winner.Player1);
         }
 
         [Test]
         public void Return_2_paper_wraps_rock_PASS_When_draw_Rock_Paper()
         {
-            int result = new Round().Play("Rock", "Paper");
-            Check.That(result).IsEqualTo(2);
+            var winner = new Round().Play("Rock", "Paper");
+            Check.That(winner).IsEqualTo(Winner.Player2);
         }
 
 
         [Test]
         public void Return_0_round_is_a_draw_When_draw_Rock_Rock()
         {
-            int result = new Round().Play("Rock", "Rock");
-            Check.That(result).IsEqualTo(0);
+            var winner = new Round().Play("Rock", "Rock");
+            Check.That(winner).IsEqualTo(Winner.Draw);
         }
 
         [Test]
         public void Return_0_round_is_a_draw_When_draw_Scissors_Scissors()
         {
-            int result = new Round().Play("Scissors", "Scissors");
-            Check.That(result).IsEqualTo(0);
+            var winner = new Round().Play("Scissors", "Scissors");
+            Check.That(winner).IsEqualTo(Winner.Draw);
         }
 
         [Test]
         public void Return_0_round_is_a_draw_When_draw_Paper_Paper()
         {
-            int result = new Round().Play("Paper", "Paper");
-            Check.That(result).IsEqualTo(0);
+            var winner = new Round().Play("Paper", "Paper");
+            Check.That(winner).IsEqualTo(Winner.Draw);
         }
 
         [Test]

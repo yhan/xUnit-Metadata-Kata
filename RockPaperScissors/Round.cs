@@ -1,45 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RockPaperScissors
+﻿namespace RockPaperScissors
 {
+    using System.Collections.Generic;
+
+    struct PlayComibination
+    {
+        private readonly string _player2;
+
+        public string Player1 { get; }
+
+        public PlayComibination(string player1, string player2)
+        {
+            _player2 = player2;
+            Player1 = player1;
+        }
+    }
+
     public class Round
     {
+        private Dictionary<PlayComibination, Winner> _rules = new Dictionary<PlayComibination, Winner>()
+                  {
+                      [new PlayComibination(Rock, Scissors)] = Winner.Player1,
+                      [new PlayComibination(Rock, Paper)] = Winner.Player2,
+                      [new PlayComibination(Paper, Rock)] = Winner.Player1,
+                      [new PlayComibination(Paper, Scissors)] = Winner.Player2,
+                      [new PlayComibination(Scissors, Paper)] = Winner.Player1,
+                      [new PlayComibination(Scissors, Rock)] = Winner.Player2,
+                      [new PlayComibination(Scissors, Scissors)] = Winner.Draw,
+                      [new PlayComibination(Rock, Rock)] = Winner.Draw,
+                      [new PlayComibination(Paper, Paper)] = Winner.Draw,
+                  };
 
-        public int Play(string player1, string player2)
+        private const string Rock = "Rock";
+        private const string Scissors = "Scissors";
+        private const string Paper = "Paper";
+
+        public Winner Play(string player1, string player2)
         {
-            if (player1 == "Rock")
+            if (_rules.TryGetValue(new PlayComibination(player1, player2), out var result))
             {
-                if (player2 == "Scissors")
-                    return 1;
-                if (player2 == "Paper")
-                    return 2;
-                if (player2 == "Rock")
-                    return 0;
+                return result;
             }
-            if (player1 == "Paper")
-            {
-                if (player2 == "Rock")
-                    return 1;
-                if (player2 == "Scissors")
-                    return 2;
-                if (player2 == "Paper")
-                    return 0;
-            }
-            if (player1 == "Scissors")
-            {
-                if (player2 == "Paper")
-                    return 1;
-                if (player2 == "Rock")
-                    return 2;
-                if (player2 == "Scissors")
-                    return 0;
-            }
-            throw new InvalidMoveException();;
-        }
 
+            throw new InvalidMoveException();
+        }
+    }
+
+    public enum Winner
+    {
+        Draw = 0,
+        Player1,
+        Player2
     }
 }
