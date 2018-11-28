@@ -4,44 +4,45 @@
 
     public class Game
     {
-        private Winner _winner = Winner.Draw;
-
-        private Dictionary<Winner, PlayerScore> playerScores = new Dictionary<Winner, PlayerScore>
+        private readonly Dictionary<RoundResult, PlayerScore> _playerScores = new Dictionary<RoundResult, PlayerScore>
         {
-            [Winner.Player1] = new PlayerScore(),
-            [Winner.Player2] = new PlayerScore(),
+            [RoundResult.Player1] = new PlayerScore(),
+            [RoundResult.Player2] = new PlayerScore()
         };
 
-        public Winner GetWinner()
+        private RoundResult _roundResult = RoundResult.Draw;
+
+        public RoundResult GetWinner()
         {
-            return _winner;
+            return _roundResult;
         }
 
-        public void PlayRound(string player1, string player2)
+        public void PlayRound(KindOfFigure player1, KindOfFigure player2)
         {
-            Winner winner = new Round().Play(player1, player2);
-
-
-
-            if (playerScores.TryGetValue(winner, out PlayerScore playerScore))
+            if (IsGameOver())
             {
-                int score = playerScore.Scoring();
-                if (score == 2)
+                return;
+            }
+
+            RoundResult roundResult = new Round().Play(player1, player2);
+
+            if (_playerScores.TryGetValue(roundResult, out PlayerScore playerScore))
+            {
+                if (HasWon(playerScore))
                 {
-                    _winner = winner;
+                    _roundResult = roundResult;
                 }
             }
         }
-    }
 
-    public class PlayerScore
-    {
-        private int _score;
-
-        public int Scoring()
+        private static bool HasWon(PlayerScore playerScore)
         {
-            _score++;
-            return _score;
+            return playerScore.Scoring() == 2;
+        }
+
+        private bool IsGameOver()
+        {
+            return _roundResult != RoundResult.Draw;
         }
     }
 }

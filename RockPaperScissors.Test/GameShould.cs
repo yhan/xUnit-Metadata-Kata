@@ -13,9 +13,9 @@
         {
             var listener = new SpyGameListener();
             var game = new Game();
-            game.PlayRound("Rock", "Scissors");
-            game.PlayRound("Rock", "Scissors");
-            Check.That(game.GetWinner()).IsEqualTo(Winner.Player1);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Scissors);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Scissors);
+            Check.That(game.GetWinner()).IsEqualTo(RoundResult.Player1);
         }
 
         [Test]
@@ -23,9 +23,9 @@
         {
             var listener = new SpyGameListener();
             var game = new Game();
-            game.PlayRound("Rock", "Paper");
-            game.PlayRound("Rock", "Paper");
-            Check.That(game.GetWinner()).IsEqualTo(Winner.Player2);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Paper);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Paper);
+            Check.That(game.GetWinner()).IsEqualTo(RoundResult.Player2);
         }
 
         [Test]
@@ -33,9 +33,9 @@
         {
             var listener = new SpyGameListener();
             var game = new Game();
-            game.PlayRound("Rock", "Rock");
-            game.PlayRound("Rock", "Rock");
-            Check.That(game.GetWinner()).IsEqualTo(Winner.Draw);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Rock);
+            game.PlayRound(KindOfFigure.Rock, KindOfFigure.Rock);
+            Check.That(game.GetWinner()).IsEqualTo(RoundResult.Draw);
         }
 
         [Test]
@@ -45,14 +45,14 @@
             var game = new Game();
             try
             {
-                game.PlayRound("Blah", "Foo");
-                game.PlayRound("Rock", "Scissors");
+                game.PlayRound( (KindOfFigure)4, (KindOfFigure)5);
+                game.PlayRound(KindOfFigure.Rock, KindOfFigure.Scissors);
             }
             catch (Exception e)
             {
             }
 
-            Check.That(game.GetWinner()).IsEqualTo(Winner.Draw);
+            Check.That(game.GetWinner()).IsEqualTo(RoundResult.Draw);
         }
     }
 }
